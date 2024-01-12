@@ -7,7 +7,7 @@ class PostsService {
   async getPosts() {
     const response = await api.get("api/posts");
     logger.log("GOT POSTS", response.data);
-    const newPosts = response.data.map((post) => new Post(post));
+    const newPosts = response.data.posts.map((post) => new Post(post));
     AppState.posts = newPosts;
   }
 }

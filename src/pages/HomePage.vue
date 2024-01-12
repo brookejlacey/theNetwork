@@ -1,8 +1,9 @@
 <template>
+  <div>THE NETWORK</div>
   <div class="container-fluid">
     <section class="row">
-      <div v-for="Post in Posts" :key="Post.id" class="col-6">
-        <Post :Post="Post" />
+      <div v-for="post in posts" :key="post.id" class="col-12">
+        <Post :post="post" />
       </div>
     </section>
   </div>
@@ -37,23 +38,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+// .home {
+//   display: grid;
+//   height: 80vh;
+//   place-content: center;
+//   text-align: center;
+//   user-select: none;
 
-  .home-card {
-    width: clamp(500px, 50vw, 100%);
+//   .home-card {
+//     width: clamp(500px, 50vw, 100%);
 
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
+//     > img {
+//       height: 200px;
+//       max-width: 200px;
+//       width: 100%;
+//       object-fit: contain;
+//       object-position: center;
+//     }
+//   }
+// }
 </style>

@@ -1,29 +1,30 @@
 <template>
-
+  <div class="post-card">
+      
+      <router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
+        <img class="profile-picture" :src="post.creator.picture" alt="Profile image" />
+      </router-link>
+  
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ post.creator.name }}</h5>
+      <p class="card-text">{{ post.body }}</p>
+      <p class="card-text">
+        <small class="text-muted">Posted on {{ new Date(post.createdAt).toLocaleDateString() }}</small>
+      </p>
+      <img :src="post.imgUrl" class="card-img-top" alt="Post image" />
+        <a href="#" class="btn btn-primary">Like</a>
+        <span>{{ post.likeIds.length }} likes</span>
+      </div>
+    </div>
+  </div>
+<!-- 
   <div class="media">
     <img class="mr-3" :src="post.imgUrl" alt="Generic placeholder image" />
     <div class="media-body">
       <p class="card-body fs-5">{{ post.body }}</p>
-          <!-- <button type="button" class="btn ">LIKE</button> -->
-    </div>
-  </div>
-
-
-  <!-- <div class="card">
-    <img :src="post.imgUrl" class="img-fluid img" />
-    <div class="card-body d-flex justify-content-between align-items-center">
-      <div>
-        <p class="card-body">{{ post.body }}</p>
-        <router-link
-          :to="{ name: 'Profile', params: { profileId: post.creatorId } }"
-        >
-          <img :src="post.creator.picture" />
-        </router-link>
-        <p>{{ post.creator.name }}</p>
-      </div>
-    </div>
-  </div> -->
-
+          <button type="button" class="btn ">LIKE</button>
+   </div> -->
 
 </template>
 
@@ -43,8 +44,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.img {
-  height: 30vh;
-  object-fit: cover;
+.profile-picture {
+  cursor: pointer;
 }
+.card-img-top {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  }
 </style>

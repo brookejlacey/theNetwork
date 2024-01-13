@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <section class="row">
       <div v-for="post in posts" :key="post.id" class="col-12">
-        <Post :post="post" />
+        <PostCard :post="post" />
       </div>
     </section>
   </div>
@@ -14,14 +14,16 @@ import Pop from "../utils/Pop";
 import { postsService } from "../services/PostsService";
 import { computed, onMounted } from "vue";
 import { AppState } from "../AppState";
-import Post from "../components/Post.vue";
+import PostCard from "../components/PostCard.vue";
 
 export default {
   setup() {
     async function getPosts() {
       try {
         await postsService.getPosts();
-      } catch (error) {
+      } 
+      catch (error) {
+
         Pop.error(error);
       }
     }
@@ -33,7 +35,7 @@ export default {
       posts: computed(() => AppState.posts),
     };
   },
-  components: { Post },
+  components: { PostCard },
 };
 </script>
 

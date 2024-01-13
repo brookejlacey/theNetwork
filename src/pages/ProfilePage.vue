@@ -63,9 +63,21 @@ export default {
         Pop.error(error);
       }
     }
+
+     async function getPostsByProfileId() {
+      try {
+        const profileId = route.params.profileId;
+        await postsService.getPostsByProfileId(profileId);
+      }
+      catch (error) {
+        Pop.error(error);
+      }
+    }
+
+
     watch(watchableProfileId, () => {
       logger.log(route);
-      postsService.clearAppState();
+      // postsService.clearAppState();
       getProfileById();
       getPostsByProfileId();
     }, { immediate: true });

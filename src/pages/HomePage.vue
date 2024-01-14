@@ -12,7 +12,8 @@
       </div>
       
       <div class="col-md-4">
-          <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
+        <p>PLACE FOR ADS</p>
+          <!-- <Ad v-for="ad in ads" :key="ad.title" :ad="ad" /> -->
         </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>THE NETWORK</div>
+
   <div class="container-fluid">
     <div class="row">
       

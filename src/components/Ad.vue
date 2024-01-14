@@ -7,13 +7,17 @@
 </template>
 
 <script>
+import { Ad } from "../models/Ad";
+import { RouterLink } from "vue-router";
+
 export default {
     props: {
-        ad: {
-            type: Object,
-            required: true
-        }
-    }
+        post: { type: Ad, required: true },
+    },
+    setup() {
+        return {};
+    },
+    components: { RouterLink },
 };
 </script>
 

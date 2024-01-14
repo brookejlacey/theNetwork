@@ -12,8 +12,7 @@
       </div>
       
       <div class="col-md-4">
-        <p>PLACE FOR ADS</p>
-          <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
+         <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
         </div>
     </div>
   </div>
@@ -53,7 +52,7 @@ export default {
       getPosts();
       getAds();
     });
-    
+
     return {
       posts: computed(() => AppState.posts),
       ads: computed(() => AppState.ads)

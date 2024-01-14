@@ -9,6 +9,10 @@
             <PostCard :post="post" />
           </div>
         </section>
+        <div class="navigation-buttons">
+      <button v-if="olderPosts" @click="getOlderPosts">Older Posts</button>
+      <button v-if="newerPosts" @click="getNewerPosts">Newer Posts</button>
+    </div>
       </div>
       
       <div class="col-md-4">
@@ -47,6 +51,15 @@ export default {
         Pop.error(error);        
       }
     }
+
+async function getOlderPosts() {
+      await postsService.getPosts(AppState.olderPosts.split('=')[1]);
+    }
+
+async function getNewerPosts() {
+      await postsService.getPosts(AppState.newerPosts.split('=')[1]);
+    }
+
 
     onMounted(() => {
       getPosts();

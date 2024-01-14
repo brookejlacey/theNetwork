@@ -34,6 +34,10 @@
           <div v-for="post in posts" :key="post.id" class="col-12 col-md-4 mb-3">
             <PostCard :post="post" />
           </div>
+          <div class="navigation-buttons">
+      <button v-if="olderProfilePosts" @click="getOlderPosts">Older Posts</button>
+      <button v-if="newerProfilePosts" @click="getNewerPosts">Newer Posts</button>
+    </div>
         </section>
       </div>
     </section>
@@ -49,6 +53,7 @@ import { profilesService } from '../services/ProfilesService.js'
 import { AppState } from '../AppState.js'
 import { postsService } from '../services/PostsService.js';
 import PostCard from '../components/PostCard.vue';
+import { applyStyles } from '@popperjs/core';
 
 export default {
   setup() {
@@ -80,6 +85,17 @@ export default {
       }
     }
 
+    async function getOlderPosts() {
+      if (AppState.olderPosts) {
+        await postsService.getPosts(AppState.olderPosts);
+      }
+    }
+
+    async function getNewerPosts() {
+      if (AppState.newerPosts) {
+        await postsService.getPosts(AppState.newerPosts);
+      }
+    }
 
     watch(watchableProfileId, () => {
       logger.log(route);
@@ -91,7 +107,9 @@ export default {
 
     return {
       profile: computed(() => AppState.activeProfile),
-      posts: computed(() => AppState.profilePosts)
+      posts: computed(() => AppState.profilePosts),
+      getOlderPosts,
+      getNewerPosts,
     };
   },
   components: { PostCard }

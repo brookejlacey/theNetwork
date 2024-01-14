@@ -52,12 +52,16 @@ export default {
       }
     }
 
-async function getOlderPosts() {
-      await postsService.getPosts(AppState.olderPosts.split('=')[1]);
+    async function getOlderPosts() {
+      if (AppState.olderPosts) {
+        await postsService.getPosts(AppState.olderPosts);
+      }
     }
 
-async function getNewerPosts() {
-      await postsService.getPosts(AppState.newerPosts.split('=')[1]);
+    async function getNewerPosts() {
+      if (AppState.newerPosts) {
+        await postsService.getPosts(AppState.newerPosts);
+      }
     }
 
 
@@ -68,7 +72,9 @@ async function getNewerPosts() {
 
     return {
       posts: computed(() => AppState.posts),
-      ads: computed(() => AppState.ads)
+      ads: computed(() => AppState.ads),
+      getOlderPosts,
+      getNewerPosts,
     };
   },
   components: { PostCard, Ad },
@@ -76,23 +82,5 @@ async function getNewerPosts() {
 </script>
 
 <style scoped lang="scss">
-// .home {
-//   display: grid;
-//   height: 80vh;
-//   place-content: center;
-//   text-align: center;
-//   user-select: none;
 
-//   .home-card {
-//     width: clamp(500px, 50vw, 100%);
-
-//     > img {
-//       height: 200px;
-//       max-width: 200px;
-//       width: 100%;
-//       object-fit: contain;
-//       object-position: center;
-//     }
-//   }
-// }
 </style>

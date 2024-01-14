@@ -1,21 +1,22 @@
 <template>
     <form @submit.prevent="submitSearch">
-        <input type="text" v-model="searchQuery" placeholder="Search for posts...">
+        <input type="text" v-model="searchQuery" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
 </template>
 
 <script>
 import { ref } from 'vue';
-import { postsService } from '../services/PostsService';
+import { useRouter } from 'vue-router';
 
 export default {
     setup() {
+        const router = useRouter();
         const searchQuery = ref('');
 
-        const submitSearch = async () => {
+        const submitSearch = () => {
             if (searchQuery.value.trim()) {
-                await postsService.searchPosts(searchQuery.value);
+                router.push({ name: 'SearchResults', query: { q: searchQuery.value } });
             }
         };
 

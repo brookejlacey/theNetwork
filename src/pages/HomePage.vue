@@ -9,10 +9,12 @@
             <PostCard :post="post" />
           </div>
         </section>
+
         <div class="navigation-buttons">
       <button v-if="olderPosts" @click="getOlderPosts">Older Posts</button>
       <button v-if="newerPosts" @click="getNewerPosts">Newer Posts</button>
-    </div>
+        </div>
+        
       </div>
       
       <div class="col-md-4">

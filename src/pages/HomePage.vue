@@ -13,7 +13,7 @@
       
       <div class="col-md-4">
         <p>PLACE FOR ADS</p>
-          <!-- <Ad v-for="ad in ads" :key="ad.title" :ad="ad" /> -->
+          <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
         </div>
     </div>
   </div>
@@ -22,10 +22,11 @@
 <script>
 import Pop from "../utils/Pop";
 import { postsService } from "../services/PostsService";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, popScopeId } from "vue";
 import { AppState } from "../AppState";
 import PostCard from "../components/PostCard.vue";
 import Ad from "../components/Ad.vue";
+import { adsService } from "../services/AdsService";
 
 export default {
   setup() {
@@ -39,11 +40,23 @@ export default {
       }
     }
 
+    async function getAds() {
+      try {
+        await adsService.getAds();
+      } 
+      catch (error) {
+        Pop.error(error);        
+      }
+    }
+
     onMounted(() => {
       getPosts();
+      getAds();
     });
+    
     return {
       posts: computed(() => AppState.posts),
+      ads: computed(() => AppState.ads)
     };
   },
   components: { PostCard, Ad },

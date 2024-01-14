@@ -12,7 +12,7 @@ import { RouterLink } from "vue-router";
 
 export default {
     props: {
-        post: { type: Ad, required: true },
+        ad: { type: Ad, required: true },
     },
     setup() {
         return {};

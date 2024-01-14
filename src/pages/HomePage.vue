@@ -1,11 +1,20 @@
 <template>
   <div>THE NETWORK</div>
   <div class="container-fluid">
-    <section class="row">
-      <div v-for="post in posts" :key="post.id" class="col-12">
-        <PostCard :post="post" />
+    <div class="row">
+      
+      <div class="col-md-8">
+        <section class="row">
+          <div v-for="post in posts" :key="post.id" class="col-12">
+            <PostCard :post="post" />
+          </div>
+        </section>
       </div>
-    </section>
+      
+      <div class="col-md-4">
+          <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
+        </div>
+    </div>
   </div>
 </template>
 
@@ -15,6 +24,7 @@ import { postsService } from "../services/PostsService";
 import { computed, onMounted } from "vue";
 import { AppState } from "../AppState";
 import PostCard from "../components/PostCard.vue";
+import Ad from "../components/Ad.vue";
 
 export default {
   setup() {
@@ -35,7 +45,7 @@ export default {
       posts: computed(() => AppState.posts),
     };
   },
-  components: { PostCard },
+  components: { PostCard, Ad },
 };
 </script>
 

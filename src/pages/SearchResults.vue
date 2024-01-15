@@ -2,22 +2,14 @@
     <div class="search-results-page">
         <div class="people-results">
             <h2>People</h2>
-      <!-- Display profile search results -->
-      <ProfileCard
-        v-for="profile in profileSearchResults"
-        :key="profile.id"
-        :profile="profile"
-      />
-    </div>
-    <div class="posts-results">
-      <h2>Posts</h2>
-      <!-- Display posts search results -->
-      <PostCard
-        v-for="post in postSearchResults"
-        :key="post.id"
-        :post="post"
-      />
-    </div>
+            <!-- Display profile search results -->
+            <ProfileCard v-for="profile in profileSearchResults" :key="profile.id" :profile="profile" />
+        </div>
+        <div class="posts-results">
+            <h2>Posts</h2>
+            <!-- Display posts search results -->
+            <PostCard v-for="post in postSearchResults" :key="post.id" :post="post" />
+        </div>
     </div>
 </template>
 <script>
@@ -25,7 +17,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import PostCard from './components/PostCard.vue';
 import ProfileCard from './components/ProfileCard.vue';
-import { searchService } from './services/SearchService'; // Assuming you have a search service
+import { searchService } from './services/SearchService';
 
 export default {
 
@@ -40,7 +32,7 @@ export default {
         const fetchSearchResults = async () => {
             const query = route.query.q;
             if (query) {
-                // Assuming searchService has methods for searching profiles and posts
+
                 const profileResults = await searchService.searchProfiles(query);
                 const postResults = await searchService.searchPosts(query);
 
@@ -59,6 +51,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

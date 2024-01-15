@@ -1,4 +1,3 @@
-// services/SearchService.js
 import { api } from './AxiosService';
 import { AppState } from '../AppState';
 import { Profile } from '../models/Profile';
@@ -18,7 +17,7 @@ class SearchService {
 
 
       AppState.searchedTerm = searchTerm;
-      AppState.searchCurrentPage = postResponse.data.page; 
+      AppState.searchCurrentPage = postResponse.data.page;
       AppState.searchTotalPages = postResponse.data.total_pages;
     } catch (error) {
       console.error('Search failed:', error);

@@ -1,29 +1,23 @@
+
 <template>
-    <form @submit.prevent="submitSearch">
-        <input type="text" v-model="searchQuery" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
+    <div class="search-bar">
+        <input v-model="searchTerm" type="text" placeholder="Search Site">
+        <button @click="onSearchClick">Search</button>
+    </div>
 </template>
-
+  
 <script>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
 export default {
-    setup() {
-        const router = useRouter();
-        const searchQuery = ref('');
-
-        const submitSearch = () => {
-            if (searchQuery.value.trim()) {
-                router.push({ name: 'SearchResults', query: { q: searchQuery.value } });
-            }
-        };
-
+    data() {
         return {
-            searchQuery,
-            submitSearch,
+            searchTerm: ''
         };
     },
+    methods: {
+        onSearchClick() {
+            this.$emit('search', this.searchTerm);
+        }
+    }
 };
 </script>
+  

@@ -21,42 +21,61 @@ class PostsService {
     AppState.profileCurrentPage = response.data.page;
     AppState.profileOlder = response.data.older;
     AppState.profileNewer = response.data.newer;
+  }
+
+  async getPostById(postId) {
+    const response = await api.get(`api/posts/${postId}`);
+    console.log('got posts by ID', response.data);
+    AppState.activePost = new Post(response.data);
+  }
+
+  async searchPosts(searchTerm) {
+    const response = await api.get(`api/posts?query=${searchTerm}`);
+    console.log('definitely am searching now', response.data);
+    AppState.searchedTerm = searchTerm;
+    AppState.posts = response.data.posts.map(post => new Post(post));
+    AppState.currentPage = response.data.page;
+    AppState.totalPages = response.data.total_pages;
+  }
+
+  async clearSearch() {
+    AppState.searchedTerm = '';
+    await this.getPosts();
+  }
+
+  async changePage(url) {
+    const response = await api.get(url);
+    console.log('changed page I think', response.data);
+    AppState.posts = response.data.posts.map(post => new Post(post));
+    AppState.currentPage = response.data.page;
+    AppState.older = response.data.older;
+    AppState.newer = response.data.newer;
+  }
+
+  async toggleLike(post) {
+    if (!AppState.account.id) return;
+    const isLiked = post.likeIds.includes(AppState.account.id);
+    const action = isLiked ? 'unlike' : 'like';
+    try {
+      await api.put(`api/posts/${post.id}/${action}`);
+      if (isLiked) {
+        const index = post.likeIds.indexOf(AppState.account.id);
+        post.likeIds.splice(index, 1);
+      } else {
+        post.likeIds.push(AppState.account.id);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  }
+  async updateLikeStatus(post) {
+    try {
+      const action = post.likeIds.includes(AppState.account.id) ? 'like' : 'unlike';
+      await api.put(`api/posts/${post.id}/${action}`);
+    } catch (error) {
+      console.error('Error updating like status:', error);
+    }
+  }
 }
 
-async getPostById(postId) {
-const response = await api.get(`api/posts/${postId}`);
-console.log('got posts by ID', response.data);
-AppState.activePost = new Post(response.data);
-}
-
-async searchPosts(searchTerm) {
-const response = await api.get(`api/posts?query=${searchTerm}`);
-console.log('definitely am searching now', response.data);
-AppState.searchedTerm = searchTerm;
-AppState.posts = response.data.posts.map(post => new Post(post));
-AppState.currentPage = response.data.page;
-AppState.totalPages = response.data.total_pages;
-}
-
-async clearSearch() {
-AppState.searchedTerm = '';
-await this.getPosts();
-}
-
-async changePage(url) {
-const response = await api.get(url);
-console.log('changed page I think', response.data);
-AppState.posts = response.data.posts.map(post => new Post(post));
-AppState.currentPage = response.data.page;
-AppState.older = response.data.older;
-AppState.newer = response.data.newer;
-}
-
-
-  // clearAppState() {
-  //   AppState.activeProfile = null
-  //   AppState.profilePosts = []
-  // }
-
-}
 export const postsService = new PostsService();

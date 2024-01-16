@@ -12,15 +12,16 @@
         <p class="card-text">
           <small class="text-muted">Posted on {{ new Date(post.createdAt).toLocaleDateString() }}</small>
         </p>
-        <img :src="post.imgUrl" class="card-img-top img-fluid" alt="Post image" />
+        <img v-if="post.imgUrl" :src="post.imgUrl" class="card-img-top img-fluid" alt="Post image" />
 
-        <button v-if="isLoggedIn" @click="togglePostLike(post)">
-          {{ post.likeIds.includes(account.id) ? 'Unlike' : 'Like' }}
-        </button>
+  <button @click="deletePost(post.id)" v-if="account.id == post.creatorId" class="btn btn-danger delete-button" title="delete post"><i class="mdi mdi-delete-forever"></i></button>
+
+        <button @click="likePost(post.id)" v-if="account.id" class="btn" title="like post"><i class="mdi mdi-heart"></i></button>
+        
         <span>{{ post.likeIds.length }} likes</span>
+
       </div>
-      <!-- <a href="#" class="btn btn-primary">Like</a>
-        <span>{{ post.likeIds.length }} likes</span> -->
+
     </div>
   </div>
 </template>
@@ -28,32 +29,39 @@
 <script>
 import { Post } from "../models/Post";
 import { RouterLink } from "vue-router";
-import { computed } from 'vue';
+import { computed, popScopeId } from 'vue';
 import { AppState } from '../AppState';
 import { postsService } from '../services/PostsService';
+import Pop from "../utils/Pop";
 
 export default {
-  props: {
-    post: { type: Post, required: true },
-  },
-  setup() {
-    const account = computed(() => AppState.account);
-    const isLoggedIn = computed(() => !!account.value.id);
+  props: { post: { type: Post, required: true }},
+  setup(props) {
 
-    async function togglePostLike(post) {
-      if (isLoggedIn.value) {
+    return { 
+      account: computed(() => AppState.account),
+
+      async deletePost(postId) {
         try {
-          await postsService.toggleLike(post);
+          if(await Pop.confirm('Are you sure')){
+            await postsService.deletePost(postId)
+            AppState.profilePosts = AppState.profilePosts.filter(post => post.id !== postId)
+            Pop.success('deleted post')
+          }
         } catch (error) {
-          console.error('Error in toggling post like:', error);
+          Pop.error(error)
         }
-      }
-    }
+      },
 
-    return { isLoggedIn, account, togglePostLike };
-  },
-  components: { RouterLink },
+      async likePost(postId) {
+        await postsService.likePost(postId)
+        AppState.profilePosts = AppState.profilePosts.filter(post => post.id !== postId)
+      }
+
+  }
+}
 };
+
 </script>
 
 
@@ -71,4 +79,10 @@ export default {
   height: auto;
   object-fit: cover;
 }
+
+  .delete-button{
+    position: absolute;
+    right: 0px;
+    top: 0px
+  }
 </style>

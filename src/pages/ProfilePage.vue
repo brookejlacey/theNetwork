@@ -34,10 +34,10 @@
           <div v-for="post in posts" :key="post.id" class="col-12 col-md-4 mb-3">
             <PostCard :post="post" />
           </div>
-          <div class="navigation-buttons">
+          <!-- <div class="navigation-buttons">
             <button v-if="olderProfilePosts" @click="getOlderPosts">Older Posts</button>
             <button v-if="newerProfilePosts" @click="getNewerPosts">Newer Posts</button>
-          </div>
+          </div> -->
         </section>
       </div>
       <div class="col-md-4">

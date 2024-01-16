@@ -29,53 +29,25 @@ class PostsService {
     AppState.activePost = new Post(response.data);
   }
 
-  async searchPosts(searchTerm) {
-    const response = await api.get(`api/posts?query=${searchTerm}`);
-    console.log('definitely am searching now', response.data);
-    AppState.searchedTerm = searchTerm;
-    AppState.posts = response.data.posts.map(post => new Post(post));
-    AppState.currentPage = response.data.page;
-    AppState.totalPages = response.data.total_pages;
+  async deletePost(postId) {
+    const response = await api.delete(`api/posts/${postId}`)
+    console.log('deleted post', response.data);
+    const indexToRemove = AppState.posts.findIndex(post => post.id == postId)
+    AppState.posts.splice(indexToRemove,1)
   }
 
-  async clearSearch() {
-    AppState.searchedTerm = '';
-    await this.getPosts();
-  }
-
-  async changePage(url) {
-    const response = await api.get(url);
-    console.log('changed page I think', response.data);
-    AppState.posts = response.data.posts.map(post => new Post(post));
-    AppState.currentPage = response.data.page;
-    AppState.older = response.data.older;
-    AppState.newer = response.data.newer;
-  }
-
-  async toggleLike(post) {
-    if (!AppState.account.id) return;
-    const isLiked = post.likeIds.includes(AppState.account.id);
-    const action = isLiked ? 'unlike' : 'like';
+  async likePost(postId) {
     try {
-      await api.put(`api/posts/${post.id}/${action}`);
-      if (isLiked) {
-        const index = post.likeIds.indexOf(AppState.account.id);
-        post.likeIds.splice(index, 1);
-      } else {
-        post.likeIds.push(AppState.account.id);
+      const response = await api.put(`api/posts/${postId}/like`);
+      const postIndex = AppState.posts.findIndex(post => post.id === postId)
+      if (postIndex !== -1) {
+        AppState.posts[postIndex].likeIds = response.data.likeIds;
       }
     } catch (error) {
-      console.error('Error toggling like:', error);
+      console.error('error liking post', error)
     }
   }
-  async updateLikeStatus(post) {
-    try {
-      const action = post.likeIds.includes(AppState.account.id) ? 'like' : 'unlike';
-      await api.put(`api/posts/${post.id}/${action}`);
-    } catch (error) {
-      console.error('Error updating like status:', error);
-    }
-  }
+
 }
 
 export const postsService = new PostsService();

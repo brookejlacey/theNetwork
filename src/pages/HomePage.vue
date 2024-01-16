@@ -2,8 +2,10 @@
   <div class="container-fluid">
     <div class="row">
 
-      <SearchBar @search="goToSearchResults" />
-
+      <!-- <SearchBar @search="goToSearchResults" /> -->
+      <div>
+        <PostForm />
+      </div>
       <div class="col-md-8">
         <section class="row">
           <div v-for="post in posts" :key="post.id" class="col-12">
@@ -18,10 +20,10 @@
         <Ad v-for="ad in ads" :key="ad.title" :ad="ad" />
       </div>
     </div>
-    <div class="navigation-buttons">
+    <!-- <div class="navigation-buttons">
       <button v-if="olderPosts" @click="getOlderPosts">Older Posts</button>
       <button v-if="newerPosts" @click="getNewerPosts">Newer Posts</button>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -36,6 +38,7 @@ import Ad from "../components/Ad.vue";
 import { adsService } from "../services/AdsService";
 import { useRouter } from "vue-router";
 import SearchBar from "../components/SearchBar.vue";
+import PostForm from "../components/PostForm.vue";
 
 export default {
   setup() {
@@ -59,20 +62,20 @@ export default {
       }
     }
 
-    async function getOlderPosts() {
-      if (AppState.olderPosts) {
-        await postsService.getPosts(AppState.olderPosts);
-      }
-    }
+    // async function getOlderPosts() {
+    //   if (AppState.olderPosts) {
+    //     await postsService.getPosts(AppState.olderPosts);
+    //   }
+    // }
 
-    async function getNewerPosts() {
-      if (AppState.newerPosts) {
-        await postsService.getPosts(AppState.newerPosts);
-      }
-    }
-    function goToSearchResults(searchTerm) {
-      router.push({ name: 'SearchResults', query: { q: searchTerm } });
-    }
+    // async function getNewerPosts() {
+    //   if (AppState.newerPosts) {
+    //     await postsService.getPosts(AppState.newerPosts);
+    //   }
+    // }
+    // function goToSearchResults(searchTerm) {
+    //   router.push({ name: 'SearchResults', query: { q: searchTerm } });
+    // }
 
     onMounted(() => {
       getPosts();
@@ -82,12 +85,12 @@ export default {
     return {
       posts: computed(() => AppState.posts),
       ads: computed(() => AppState.ads),
-      getOlderPosts,
-      getNewerPosts,
-      goToSearchResults
+      // getOlderPosts,
+      // getNewerPosts,
+      // goToSearchResults
     };
   },
-  components: { PostCard, Ad, SearchBar },
+  components: { PostCard, Ad, PostForm },
 };
 </script>
 

@@ -36,17 +36,15 @@ class PostsService {
     AppState.posts.splice(indexToRemove,1)
   }
 
-  async likePost(postId) {
-    try {
-      const response = await api.put(`api/posts/${postId}/like`);
-      const postIndex = AppState.posts.findIndex(post => post.id === postId)
-      if (postIndex !== -1) {
-        AppState.posts[postIndex].likeIds = response.data.likeIds;
-      }
-    } catch (error) {
-      console.error('error liking post', error)
+async likePost(postId) {
+    const response = await api.post(`api/posts/${postId}/like`);
+    const postIndex = AppState.posts.findIndex(post => post.id === postId);
+    if (postIndex !== -1) {
+      AppState.posts[postIndex].likeIds = response.data.likeIds;
     }
-  }
+
+}
+
 
 }
 

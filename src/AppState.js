@@ -10,12 +10,9 @@ export const AppState = reactive({
 
   /** @type {Post} */
   posts: [],
-  // /** @type {Post} */
-  // olderPosts: null,
-  // /** @type {Post} */
-  // newerPosts: null,
+
   /** @type {Post} */
-  profilePosts: {},
+  profilePosts: [],
   
 
   

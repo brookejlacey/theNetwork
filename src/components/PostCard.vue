@@ -54,14 +54,16 @@ export default {
       },
 
       async likePost(postId) {
-        await postsService.likePost(postId)
-        AppState.profilePosts = AppState.profilePosts.filter(post => post.id !== postId)
+        try {
+          await postsService.likePost(postId);
+          
+        } catch (error) {
+          console.error('Error liking post:', error);
+        }
       }
-
+    }
   }
 }
-};
-
 </script>
 
 
